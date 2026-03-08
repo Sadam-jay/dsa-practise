@@ -408,3 +408,91 @@
 // const testing = regex.test(text);
 
 // console.log(match, index, replaced, testing);
+
+//! 268. Missing Number
+
+// var missingNumber = function (nums) {
+//   let n = nums.length;
+
+//   let expectedSum = (n * (n + 1)) / 2;
+//   let actualSum = nums.reduce((sum, num) => sum + num, 0);
+
+//   return expectedSum - actualSum;
+// };
+
+// console.log(missingNumber([3, 0, 1, 2, 4, 6]));
+
+//! 448. Find All Numbers Disappeared in an Array
+
+// var findDisappearedNumbers = function (nums) {
+//   for (let i = 0; i < nums.length; i++) {
+//     let index = Math.abs(nums[i]) - 1;
+
+//     if (nums[index] > 0) {
+//       nums[index] = -nums[index];
+//     }
+//   }
+
+//   let result = [];
+
+//   for (let i = 0; i < nums.length; i++) {
+//     if (nums[i] > 0) {
+//       result.push(i + 1);
+//     }
+//   }
+
+//   return result;
+// };
+
+// console.log(findDisappearedNumbers([4, 3, 2, 7, 8, 2, 3, 1]));
+
+//! 1365. How Many Numbers Are Smaller Than the Current Number
+
+// var smallerNumbersThanCurrent = function (nums) {
+//   // Step 1: Create a counting array for numbers 0 → 100
+//   // index = number
+//   // value = frequency of that number
+//   let count = new Array(101).fill(0);
+
+//   // Step 2: Count how many times each number appears
+//   for (let num of nums) {
+//     count[num]++;
+//   }
+
+//   //   console.log("count", count);
+
+//   // Step 3: Convert frequency array to prefix sum array
+//   // After this:
+//   // count[i] = number of elements ≤ i
+//   for (let i = 1; i <= 100; i++) {
+//     count[i] += count[i - 1];
+//   }
+
+//   console.log("count after", count);
+
+//   // Step 4: Build result array
+//   // Numbers smaller than num = numbers ≤ (num - 1)
+//   return nums.map((num) => {
+//     if (num === 0) return 0; // nothing is smaller than 0
+//     return count[num - 1]; // prefix sum gives the answer
+//   });
+// };
+
+var smallerNumbersThanCurrent = function (nums) {
+  let count = new Array(101).fill(0);
+
+  for (let num of nums) {
+    count[num]++;
+  }
+
+  for (let i = 1; i <= 100; i++) {
+    count[i] = count[i] + count[i - 1];
+  }
+
+  return nums.map((num) => {
+    if (num === 0) return 0;
+    return count[num - 1];
+  });
+};
+
+console.log(smallerNumbersThanCurrent([8, 1, 2, 2, 3]));
