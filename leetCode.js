@@ -815,36 +815,115 @@
 //   return maxSum / k;
 // }
 
-const nums = [1, 12, -5, -6, 50, 3];
-console.log(findMaxAverage(nums, 4));
+// const nums = [1, 12, -5, -6, 50, 3];
+// console.log(findMaxAverage(nums, 4));
 // Output: 12.75
 // (The max sum is 51 from [12, -5, -6, 50]. 51 / 4 = 12.75)
 
 //! 49. Group Anagrams
 
-function groupAnagrams(strs) {
-  // 1. Create our Hash Map
-  const map = {};
+// function groupAnagrams(strs) {
+//   // 1. Create our Hash Map
+//   const map = {};
 
-  // 2. Loop through the original strings
-  for (let word of strs) {
-    // 3. Create the Universal Signature (Sort the string)
-    // JS strings don't have a .sort(), so we convert to array, sort, and convert back
-    const signature = word.split("").sort().join("");
+//   // 2. Loop through the original strings
+//   for (let word of strs) {
+//     // 3. Create the Universal Signature (Sort the string)
+//     // JS strings don't have a .sort(), so we convert to array, sort, and convert back
+//     const signature = word.split("").sort().join("");
 
-    // 4. If the signature isn't in our map yet, initialize it with an empty array
-    if (!map[signature]) {
-      map[signature] = [];
-    }
+//     // 4. If the signature isn't in our map yet, initialize it with an empty array
+//     if (!map[signature]) {
+//       map[signature] = [];
+//     }
 
-    // 5. Push the original word into the correct bucket
-    map[signature].push(word);
-  }
+//     // 5. Push the original word into the correct bucket
+//     map[signature].push(word);
+//   }
 
-  // 6. Object.values() takes all the values from an object and puts them in an array
-  return Object.values(map);
-}
+//   // 6. Object.values() takes all the values from an object and puts them in an array
+//   return Object.values(map);
+// }
 
-const strs = ["eat", "tea", "tan", "ate", "nat", "bat"];
-console.log(groupAnagrams(strs));
+// const strs = ["eat", "tea", "tan", "ate", "nat", "bat"];
+// console.log(groupAnagrams(strs));
 // Output: [ [ 'eat', 'tea', 'ate' ], [ 'tan', 'nat' ], [ 'bat' ] ]
+
+//! 739. Daily Temperatures
+
+// function dailyTemperatures(temperatures) {
+//   // Initialize our result array with all zeros.
+//   // This cleverly handles the days that NEVER find a warmer temp.
+//   const answer = new Array(temperatures.length).fill(0);
+
+//   // Our LIFO Stack to keep track of unresolved days (indices)
+//   const stack = [];
+
+//   for (let i = 0; i < temperatures.length; i++) {
+//     const currentTemp = temperatures[i];
+
+//     // Check if we have unresolved days AND if today is hotter than the top of the stack
+//     // stack[stack.length - 1] gets the index at the top of the stack
+//     while (
+//       stack.length > 0 &&
+//       currentTemp > temperatures[stack[stack.length - 1]]
+//     ) {
+//       // We found a warmer day! Pop the old day off the stack.
+//       const prevDayIndex = stack.pop();
+
+//       // Calculate how many days we waited and save it in the answer array
+//       answer[prevDayIndex] = i - prevDayIndex;
+//     }
+
+//     // Today is now the newest unresolved day. Push its index onto the stack.
+//     stack.push(i);
+//   }
+
+//   return answer;
+// }
+
+// const temps = [73, 74, 75, 71, 69, 72, 76, 73];
+// console.log(dailyTemperatures(temps));
+// Output: [1, 1, 4, 2, 1, 1, 0, 0]
+
+// todo
+//! 84. Largest Rectangle in Histogram
+
+// function largestRectangleArea(heights) {
+//   let maxArea = 0;
+//   const stack = []; // Will store indices, just like Daily Temperatures
+
+//   // We loop one extra time (heights.length) to force the stack to empty at the end
+//   for (let i = 0; i <= heights.length; i++) {
+//     // If we are out of bounds, treat the current height as 0 to force a pop
+//     const currentHeight = i === heights.length ? 0 : heights[i];
+
+//     // While stack isn't empty AND the current bar is SHORTER than the top of the stack
+//     while (
+//       stack.length > 0 &&
+//       currentHeight < heights[stack[stack.length - 1]]
+//     ) {
+//       // 1. Pop the top index to get the height
+//       const poppedIndex = stack.pop();
+//       const height = heights[poppedIndex];
+
+//       // 2. Calculate the width
+//       // If stack is empty, it means this height extends all the way to index 0.
+//       // Otherwise, it extends back to the index currently at the top of the stack.
+//       const width = stack.length === 0 ? i : i - stack[stack.length - 1] - 1;
+
+//       // 3. Calculate area and update max
+//       maxArea = Math.max(maxArea, height * width);
+//     }
+
+//     // Push the current index onto the stack
+//     stack.push(i);
+//   }
+
+//   return maxArea;
+// }
+
+// const heights = [2, 1, 5, 6, 2, 3];
+// console.log(largestRectangleArea(heights)); // Output: 10
+
+//
